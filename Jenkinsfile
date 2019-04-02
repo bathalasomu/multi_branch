@@ -1,21 +1,27 @@
-node('master') 
-{
-    stage('ContinuousDownload_master') 
+node('master')
     {
-        git 'https://github.com/selenium-saikrishna/maven.git'
+      stage('continuous download')
+      {
+    git 'https://github.com/selenium-saikrishna/maven.git'
+      }
+      stage('continuous build')
+      {
+         
+       sh label: '', script: 'mvn package'
     }
-    stage('ContinuousBuild_master')
+    stage('continuous deployment')
     {
-        sh label: '', script: 'mvn package'
-    }
-    stage('ContinuousDeployment_master')
-    {
-        sh label: '', script: 'scp /home/ubuntu/.jenkins/workspace/ScriptedPipeline/webapp/target/webapp.war ubuntu@172.31.29.86:/var/lib/tomcat8/webapps/qaenv.war'
-    }
-    stage('ContinuousTesting_master')
-    {
-        git 'https://github.com/selenium-saikrishna/TestingNew.git'
-        sh label: '', script: 'echo "Testing Passed"'
-    }
+        sh label: '', script: 'scp /var/lib/jenkins/workspace/development/webapp/target/webapp.war ubuntu@172.31.29.86:/var/lib/tomcat8/webapps/qaenv.war'
     
-}
+      }
+      stage('countinuous testing')
+      {
+          git 'https://github.com/selenium-saikrishna/TestingNew.git'
+    
+    }
+    stage('countinuous delivery') 
+    {
+        
+    sh label: '', script: 'scp /var/lib/jenkins/workspace/development/webapp/target/webapp.war ubuntu@172.31.31.202:/var/lib/tomcat8/webapps/qaenv.war'
+    
+}}
