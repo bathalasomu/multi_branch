@@ -19,9 +19,6 @@ node('master')
           git 'https://github.com/selenium-saikrishna/TestingNew.git'
     
     }
-    stage('countinuous delivery') 
-    {
-        
-    sh label: '', script: 'scp /var/lib/jenkins/workspace/development/webapp/target/webapp.war ubuntu@172.31.31.202:/var/lib/tomcat8/webapps/qaenv.war'
+   
     
 }}
